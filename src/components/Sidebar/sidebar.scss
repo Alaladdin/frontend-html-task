@@ -1,0 +1,153 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80px;
+  min-height: calc(100% - 60px);
+  background-color: #fff;
+  color: #333;
+  position: fixed;
+  top: 20px;
+
+  left: 20px;
+  bottom: 20px;
+  overflow-x: hidden;
+  padding-top: 20px;
+  transition: 0.5s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 1;
+
+  &-header {
+    border: 1px dashed orange;
+    display: flex;
+    align-items: flex-end;
+
+    span {
+      margin-left: 5px;
+      border: 1px dashed blue;
+      // margin-bottom: 10px;    
+    }
+
+    img {
+      border: 1px dashed green;
+      width: 50px;
+      height: auto;
+      // margin-bottom: 10px;    
+    }
+
+    button {
+      position: fixed;
+      margin-left: 100px;
+      background: white;
+      border: none;
+      z-index: 100;
+      font-size: 20px;
+      cursor: pointer;
+      outline: none;
+      border-radius: 50%;
+
+      svg {
+        color: rgb(54, 54, 54);
+        /* Устанавливаем желаемый цвет для иконки */
+      }
+    }
+  }
+}
+
+.sidebar.opened {
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+
+  button {
+    background-color: rgb(221, 216, 216);
+    margin-right: -7%;
+    position: relative;
+    margin-left: auto;
+
+  }
+}
+
+.sidebar>div {
+  border: 2px dashed rgb(177, 10, 143);
+  padding: 10px;
+
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: flex-end;
+
+  span {
+    margin-left: 5px;
+    margin-right: auto; // Добавлено для выравнивания по левому краю
+  }
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+
+  button {
+    background: white;
+    border: none;
+    z-index: 100;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 50%;
+
+    svg {
+      color: rgb(54, 54, 54);
+    }
+  }
+}
+
+.sidebar button:hover {
+  color: #555;
+
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // Изменено на выравнивание по левому краю
+}
+
+.sidebar div>div {
+  border: 1px solid rgb(28, 165, 39);
+  width: 80%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sidebar div>div:hover {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.item {
+  span {
+    margin-left: 10px;
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // position: absolute; Убрано
+  bottom: 0;
+  // width: 100%; Убрано
+
+}
+
+.active {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  color: blue;
+}

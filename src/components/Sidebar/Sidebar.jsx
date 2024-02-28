@@ -1,79 +1,83 @@
 import './sidebar.scss';
-import React from 'react';
+import { useState } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo.png';
+
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+library.add(fas);
 
 const routes = [
-    { title: 'Home', icon: 'fas-solid fa-house', path: '/' },
-    { title: 'Sales', icon: 'chart-line', path: '/sales' },
-    { title: 'Costs', icon: 'chart-column', path: '/costs' },
-    { title: 'Payments', icon: 'wallet', path: '/payments' },
-    { title: 'Finances', icon: 'chart-pie', path: '/finances' },
-    { title: 'Messages', icon: 'envelope', path: '/messages' },
+  { title: 'Home', icon: ['fas', 'fa-house'], path: '/' },
+  { title: 'Sales', icon: ['fas', 'chart-line'], path: '/sales' },
+  { title: 'Costs', icon: ['fas', 'chart-column'], path: '/costs' },
+  { title: 'Payments', icon: ['fas', 'wallet'], path: '/payments' },
+  { title: 'Finances', icon: ['fas', 'chart-pie'], path: '/finances' },
+  { title: 'Messages', icon: ['fas', 'envelope'], path: '/messages' },
 ];
 
 const bottomRoutes = [
-    { title: 'Settings', icon: 'sliders', path: '/settings' },
-    { title: 'Support', icon: 'phone-volume', path: '/support' },
+  { title: 'Settings', icon: ['fas', 'sliders'], path: '/settings' },
+  { title: 'Support', icon: ['fas', 'phone-volume'], path: '/support' },
 ];
 
-export default class Sidebar extends React.Component {
-    constructor(props) {
-        super(props);
+const Sidebar = () => {
+  const [isOpened, setIsOpened] = useState(true);
+  const [activeItem, setActiveItem] = useState('/');
 
-        this.state = {
-            isOpened: true,
-        };
-    }
+  const toggleSidebar = () => {
+    setIsOpened(prevState => !prevState);
+  };
 
-    toggleSidebar = () => {
-        this.setState((state) => ({ isOpened: !state.isOpened }) );
-    };
+  const goToRoute = (path) => {
+    console.log(`going to "${path}"`);
+    setActiveItem(path);
+  };
 
-    goToRoute = (path) => {
-        console.log(`going to "${path}"`);
-    };
+  const containerClassnames = classnames('sidebar', { opened: isOpened });
 
-    render() {
-        const { isOpened } = this.state;
-        const containerClassnames = classnames('sidebar', { opened: isOpened });
+  return (
+    <div className={containerClassnames}>
+      <div className={'sidebar-header'}>
+        <img
+          src={logo}
+          alt="TensorFlow logo"
+        />
+        {isOpened && <span>TensorFlow</span>}
+        <button onClick={toggleSidebar}>
+          <FontAwesomeIcon icon={isOpened ? ['fas', 'angle-left'] : ['fas', 'angle-right']} />
+        </button>
+      </div>
 
-        return (
-            <div className={ containerClassnames }>
-                <div>
-                    <img
-                        src={ logo }
-                        alt="TensorFlow logo"
-                    />
-                    <span>TensorFlow</span>
-                    <button onClick={ this.toggleSidebar }>
-                        <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' } />
-                    </button>
-                </div>
+      <div className={'sidebar-nav'}>
+        {routes.map((route) => (
+          <div
+            className={classnames('item', { active: activeItem === route.path })}
+            key={route.title}
+            onClick={() => goToRoute(route.path)}
+          >
+            <FontAwesomeIcon icon={route.icon} />
+            {isOpened && <span>{route.title}</span>}
+          </div>
+        ))}
+      </div>
 
-                <div>
-                    {
-                        routes.map((route) => (
-                            <div key={ route.title } onClick={ () => this.goToRoute(route.path) }>
-                                <FontAwesomeIcon icon={ route.icon } />
-                                <span>{ route.title }</span>
-                            </div>
-                        ))
-                    }
-                </div>
+      <div className={'sidebar-footer'}>
+        {bottomRoutes.map((route) => (
+          <div
+            className={classnames('item', { active: activeItem === route.path })}
+            key={route.title}
+            onClick={() => goToRoute(route.path)}
+          >
+            <FontAwesomeIcon icon={route.icon} />
+            {isOpened && <span>{route.title}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-                <div>
-                    {
-                        bottomRoutes.map((route) => (
-                            <div key={ route.title } onClick={ () => this.goToRoute(route.path) }>
-                                <FontAwesomeIcon icon={ route.icon } />
-                                <span>{ route.title }</span>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-        );
-    }
-}
+export default Sidebar;
