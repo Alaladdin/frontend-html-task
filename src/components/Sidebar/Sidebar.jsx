@@ -1,8 +1,9 @@
 import { useState } from "react";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsUpDown } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/logo.png";
-// import user from "../../assets/user.png";
+import user from "../../assets/jimmy.png";
 import PropTypes from "prop-types";
 import {
   Container,
@@ -13,9 +14,10 @@ import {
   Sup,
   NavItem,
   SupItem,
-  // Prof,
-  // ProfWrapper,
-  // ProfInfo,
+  Prof,
+  ProfWrapper,
+  ProfInfo,
+  InfoWrapper,
 } from "./styles";
 
 const routes = [
@@ -82,7 +84,7 @@ const Sidebar = (props) => {
           </SupItem>
         ))}
       </Sup>
-      {/* <Prof>
+      <Prof>
         <ProfWrapper>
           <img src={user} alt="user logo" />
           <ProfInfo>
@@ -90,8 +92,10 @@ const Sidebar = (props) => {
             <h2>Boris G.</h2>
           </ProfInfo>
         </ProfWrapper>
-        <div>хуй</div>
-      </Prof> */}
+        <InfoWrapper>
+          <FontAwesomeIcon icon={faArrowsUpDown} />
+        </InfoWrapper>
+      </Prof>
     </Container>
   );
 };

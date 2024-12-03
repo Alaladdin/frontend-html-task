@@ -46,7 +46,7 @@ export const IconWrapper = styled.div`
   border-radius: 50%;
   background-color: var(--color-button-background-light-active);
   margin-top: 5px;
-  margin-left: 16px;
+  margin-left: 18px;
   cursor: pointer;
 
   &:hover {
@@ -83,17 +83,49 @@ export const NavItem = styled.div`
 `;
 
 export const Sup = styled(Nav)`
-  margin-top: 50%;
+  margin-top: 20%;
+  margin-bottom: 10%;
 `;
 export const SupItem = NavItem;
 
 export const Prof = styled.div`
   display: flex;
+  align-items: center;
+  margin: 15px 0;
+  justify-content: space-around;
 `;
 export const ProfWrapper = styled.div`
   display: flex;
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 20%;
+    flex-shrink: 0;
+  }
 `;
-export const Profinfo = styled.div`
+export const ProfInfo = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: 0.7em;
+
+  p,
+  h2 {
+    margin: 0;
+  }
+`;
+
+export const InfoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-button-background-light-default);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-button-background-dark-active);
+  }
 `;
