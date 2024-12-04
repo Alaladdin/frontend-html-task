@@ -1,7 +1,11 @@
 import { useState } from "react";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsUpDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowsUpDown,
+  faAngleLeft,
+  faAngleRight,
+} from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/logo.png";
 import user from "../../assets/jimmy.png";
 import PropTypes from "prop-types";
@@ -44,18 +48,18 @@ const Sidebar = (props) => {
   };
 
   const toggleSidebar = () => {
-    setIsOpened((v) => !v);
+    setIsOpened(!isOpened);
   };
 
   return (
-    <Container className={containerClassnames}>
+    <Container isOpened={isOpened} className={containerClassnames}>
       <Logo>
-        <LogoWrapper>
+        <LogoWrapper isOpened={isOpened}>
           <img src={logo} alt="TensorFlow logo" />
           <span>TensorFlow</span>
         </LogoWrapper>
-        <IconWrapper onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={isOpened ? "angle-left" : "angle-right"} />
+        <IconWrapper onClick={toggleSidebar} isOpened={isOpened}>
+          <FontAwesomeIcon icon={isOpened ? faAngleLeft : faAngleRight} />
         </IconWrapper>
       </Logo>
       <Nav>
@@ -65,6 +69,7 @@ const Sidebar = (props) => {
             onClick={() => {
               goToRoute(route.path);
             }}
+            isOpened={isOpened}
           >
             <FontAwesomeIcon icon={route.icon} />
             <span>{route.title}</span>
@@ -78,6 +83,7 @@ const Sidebar = (props) => {
             onClick={() => {
               goToRoute(route.path);
             }}
+            isOpened={isOpened}
           >
             <FontAwesomeIcon icon={route.icon} />
             <span>{route.title}</span>
@@ -87,7 +93,7 @@ const Sidebar = (props) => {
       <Prof>
         <ProfWrapper>
           <img src={user} alt="user logo" />
-          <ProfInfo>
+          <ProfInfo isOpened={isOpened}>
             <p>User Account</p>
             <h2>Boris G.</h2>
           </ProfInfo>
