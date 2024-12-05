@@ -2,9 +2,10 @@ import { useState } from "react";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowsUpDown,
   faAngleLeft,
   faAngleRight,
+  faAngleUp,
+  faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/logo.png";
 import user from "../../assets/jimmy.png";
@@ -40,7 +41,8 @@ const bottomRoutes = [
 
 const Sidebar = (props) => {
   const { color } = props;
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
+  const [isShows, setIsShows] = useState(false);
   const containerClassnames = classnames({ opened: isOpened });
 
   const goToRoute = (path) => {
@@ -49,6 +51,10 @@ const Sidebar = (props) => {
 
   const toggleSidebar = () => {
     setIsOpened(!isOpened);
+  };
+
+  const toggleProfile = () => {
+    setIsShows(!isShows);
   };
 
   return (
@@ -90,16 +96,16 @@ const Sidebar = (props) => {
           </SupItem>
         ))}
       </Sup>
-      <Prof>
-        <ProfWrapper>
+      <Prof isOpened={isOpened}>
+        <ProfWrapper isOpened={isOpened}>
           <img src={user} alt="user logo" />
           <ProfInfo isOpened={isOpened}>
             <p>User Account</p>
             <h2>Boris G.</h2>
           </ProfInfo>
         </ProfWrapper>
-        <InfoWrapper>
-          <FontAwesomeIcon icon={faArrowsUpDown} />
+        <InfoWrapper onClick={toggleProfile} isOpened={isOpened}>
+          <FontAwesomeIcon icon={isShows ? faAngleDown : faAngleUp} />
         </InfoWrapper>
       </Prof>
     </Container>
