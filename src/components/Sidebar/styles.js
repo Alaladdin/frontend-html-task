@@ -10,11 +10,10 @@ export const Container = styled.div`
   width: ${(props) => (props.isOpened ? "250px" : "100px")};
   display: flex;
   flex-direction: column;
-  border: 3px double #f0f2ff;
+  border: 4px double #f0f2ff;
   border-radius: 10px;
   transition: width 0.4s ease, transform 0.4s ease;
   margin: 20px 20px 0px 20px;
-  // overflow: hidden;
   background-color: ${(props) =>
     props.color === "dark"
       ? "var(--color-sidebar-background-dark-default)"
@@ -67,24 +66,23 @@ export const IconWrapper = styled.div`
   min-width: 20px;
   min-height: 20px;
   border-radius: 50%;
-  background-color: var(--color-button-background-light-active);
+  border: 2px double #fff;
   margin-top: 5px;
   cursor: pointer;
-  margin-left: ${(props) => (props.isOpened ? "68px" : "-94px")};
-
+  margin-left: ${(props) => (props.isOpened ? "64px" : "-97px")};
   transition: transform 0.8s ease, background-color 0.8s ease,
     margin-left 0.5s ease;
-
   background-color: ${(props) =>
     props.color === "dark"
-      ? "var(--color-button-background-dark-active)"
+      ? "var(--color-button-background-dark-default)"
       : "var(--color-button-background-light-active)"};
 
   &:hover {
     background-color: ${(props) =>
       props.color === "dark"
         ? "var(--color-button-background-dark-active)"
-        : "var(--color-button-background-light-hover)"};
+        : "var(--color-button-background-dark-active)"};
+    transform: scale(1.1);
   }
 `;
 
@@ -217,13 +215,14 @@ export const Prof = styled.div`
   max-height: 70px;
   position: relative;
   border-radius: 0 0 7px 7px;
+  transition: background-color 0.5s ease;
   background-color: ${(props) =>
     props.color === "dark"
-      ? props.showProfile && !props.isOpened
-        ? "var(--color-text-light-active)"
+      ? props.showProfile
+        ? "var(--color-button-background-dark-active)"
         : "var(--color-sidebar-background-dark-default)"
-      : props.showProfile && !props.isOpened
-      ? "var(--color-text-logo-light-default)"
+      : props.showProfile
+      ? "var(--color-button-background-light-active)"
       : "var(--color-button-background-light-default)"};
 
   &::before {
@@ -248,12 +247,13 @@ export const ProfWrapper = styled.div`
   cursor: default;
 
   img {
+    opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
     width: 40px;
     height: auto;
     margin-left: ${(props) => (props.isOpened ? "0px" : "5px")};
     margin-right: 10px;
     border-radius: 10px;
-    transition: transform 0.8s ease, margin-left 0.8s ease;
+    transition: transform 0.8s ease, margin-left 0.8s ease, opacity 0.5s ease;
     transform: ${(props) => (props.isOpened ? "scale(1)" : "scale(1.2)")};
   }
 `;
@@ -263,7 +263,7 @@ export const ProfInfo = styled.div`
   font-size: 0.7em;
   margin-left: 10px;
   transition: opacity 0.5s ease, transform 0.5s ease;
-  opacity: ${(props) => (props.isOpened ? "1" : "0")};
+  opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
   transform: ${(props) =>
     props.isOpened ? "translateX(0) scale(1)" : "translateX(150px) scale(0.1)"};
 
@@ -281,16 +281,23 @@ export const InfoWrapper = styled.div`
   min-width: 20px;
   min-height: 20px;
   border-radius: 50%;
-  background-color: var(--color-button-background-light-active);
+  border: 2px double #fff;
   margin-top: 5px;
   cursor: pointer;
-  margin-left: ${(props) => (props.isOpened ? "76px" : "-79px")};
-
+  margin-left: ${(props) => (props.isOpened ? "72px" : "-82px")};
   transition: transform 0.8s ease, background-color 0.8s ease,
     margin-left 0.5s ease;
+  background-color: ${(props) =>
+    props.color === "dark"
+      ? "var(--color-button-background-dark-default)"
+      : "var(--color-button-background-light-active)"};
 
   &:hover {
-    background-color: var(--color-button-background-dark-active);
+    background-color: ${(props) =>
+      props.color === "dark"
+        ? "var(--color-button-background-dark-active)"
+        : "var(--color-button-background-dark-active)"};
+    transform: scale(1.1);
   }
 `;
 
@@ -347,6 +354,8 @@ export const ProfBottom = styled.div`
 
   p {
     font-size: 10px;
+    margin: 0;
+    margin-bottom: 20px;
 
     span {
       text-decoration: underline;

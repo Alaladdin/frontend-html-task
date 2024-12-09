@@ -107,7 +107,11 @@ const Sidebar = (props) => {
             <img src={logo} alt="TensorFlow logo" />
             <span>TensorFlow</span>
           </LogoWrapper>
-          <IconWrapper onClick={toggleSidebar} isOpened={isOpened}>
+          <IconWrapper
+            color={color}
+            onClick={toggleSidebar}
+            isOpened={isOpened}
+          >
             <FontAwesomeIcon icon={isOpened ? faAngleLeft : faAngleRight} />
           </IconWrapper>
         </Logo>
@@ -145,14 +149,18 @@ const Sidebar = (props) => {
           ))}
         </Sup>
         <Prof isOpened={isOpened} color={color} showProfile={showProfile}>
-          <ProfWrapper isOpened={isOpened}>
+          <ProfWrapper isOpened={isOpened} showProfile={showProfile}>
             <img src={user} alt="user logo" />
-            <ProfInfo isOpened={isOpened}>
+            <ProfInfo isOpened={isOpened} showProfile={showProfile}>
               <p>User Account</p>
               <h2>Boris G.</h2>
             </ProfInfo>
           </ProfWrapper>
-          <InfoWrapper onClick={toggleProfile} isOpened={isOpened}>
+          <InfoWrapper
+            color={color}
+            onClick={toggleProfile}
+            isOpened={isOpened}
+          >
             <FontAwesomeIcon icon={showProfile ? faAngleDown : faAngleUp} />
           </InfoWrapper>
         </Prof>
