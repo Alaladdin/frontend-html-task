@@ -8,16 +8,20 @@ import {
   faAngleUp,
   faAngleDown,
   faSignOutAlt,
+  faMoon,
+  faSun,
 } from "@fortawesome/free-solid-svg-icons";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo_new.png";
 import user from "../../assets/jimmy.png";
 import PropTypes from "prop-types";
 import {
   Wrapper,
   Container,
+  Header,
   Logo,
-  LogoWrapper,
-  IconWrapper,
+  ArrowsLeftRight,
+  Theme,
+  ArrowsUpDown,
   Nav,
   Sup,
   NavItem,
@@ -25,7 +29,6 @@ import {
   Prof,
   ProfWrapper,
   ProfInfo,
-  InfoWrapper,
   InfoBlock,
   ProfItem,
   BlockInfo,
@@ -56,10 +59,10 @@ const bottomRoutes = [
 ];
 
 const Sidebar = (props) => {
-  const { color } = props;
   const [isOpened, setIsOpened] = useState(true);
   const [isActive, setIsActive] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const { color, toggleTheme } = props;
 
   const containerClassnames = classnames({
     shows: showProfile,
@@ -103,19 +106,12 @@ const Sidebar = (props) => {
         isOpened={isOpened}
         className={containerClassnames}
       >
-        <Logo>
-          <LogoWrapper isOpened={isOpened}>
+        <Header>
+          <Logo isOpened={isOpened}>
             <img src={logo} alt="TensorFlow logo" />
-            <span>TensorFlow</span>
-          </LogoWrapper>
-          <IconWrapper
-            color={color}
-            onClick={toggleSidebar}
-            isOpened={isOpened}
-          >
-            <FontAwesomeIcon icon={isOpened ? faAngleLeft : faAngleRight} />
-          </IconWrapper>
-        </Logo>
+            <span>Insurance Broker</span>
+          </Logo>
+        </Header>
         <Nav>
           {routes.map((route) => (
             <NavItem
@@ -153,25 +149,31 @@ const Sidebar = (props) => {
           <ProfWrapper isOpened={isOpened} showProfile={showProfile}>
             <img src={user} alt="user logo" />
             <ProfInfo isOpened={isOpened} showProfile={showProfile}>
-              <p>User Account</p>
+              <p>Agent`s Account</p>
               <h2>Boris G.</h2>
             </ProfInfo>
           </ProfWrapper>
-          <InfoWrapper
-            color={color}
-            onClick={toggleProfile}
-            isOpened={isOpened}
-          >
-            <FontAwesomeIcon icon={showProfile ? faAngleDown : faAngleUp} />
-          </InfoWrapper>
         </Prof>
       </Container>{" "}
+      <ArrowsLeftRight
+        color={color}
+        onClick={toggleSidebar}
+        isOpened={isOpened}
+      >
+        <FontAwesomeIcon icon={isOpened ? faAngleLeft : faAngleRight} />
+      </ArrowsLeftRight>
+      <Theme color={color} onClick={toggleTheme}>
+        <FontAwesomeIcon icon={color === "light" ? faMoon : faSun} />
+      </Theme>
+      <ArrowsUpDown color={color} onClick={toggleProfile} isOpened={isOpened}>
+        <FontAwesomeIcon icon={showProfile ? faAngleDown : faAngleUp} />
+      </ArrowsUpDown>
       <InfoBlock color={color} showProfile={showProfile}>
         <ProfWrapper isOpened={isOpened}>
           <img src={user} alt="user logo" />
-          <BlockInfo>
+          <BlockInfo isOpened={isOpened}>
             <h2>Boris Gromov</h2>
-            <p>cv@gromovboris.com</p>
+            <p>res@gromovboris.com</p>
           </BlockInfo>
         </ProfWrapper>{" "}
         <ProfBar>
@@ -196,7 +198,7 @@ const Sidebar = (props) => {
             <FontAwesomeIcon icon={faSignOutAlt} />
           </Logout>
           <p>
-            V10.30 - <span>Terms and Conditions</span>
+            v1.2 - <span>Terms and Conditions</span>
           </p>
         </ProfBottom>
       </InfoBlock>
