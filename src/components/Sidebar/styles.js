@@ -95,7 +95,6 @@ export const Theme = styled(ArrowsLeftRight)`
   align-self: center;
   grid-column: 2;
   grid-row: 2;
-  // transition: transform 0.8s ease, color 0.8s ease;
 `;
 
 export const ArrowsUpDown = styled(ArrowsLeftRight)`
