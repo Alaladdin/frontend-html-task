@@ -1,19 +1,24 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-end;
-  height: 100%;
+  display: inline-grid;
+  grid-template-columns: auto;
+  grid-template-rows: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 1rem;
+  margin: 2rem;
 `;
 
 export const Container = styled.div`
+  grid-column: 1;
+  grid-row: 1 / span 3;
   width: ${(props) => (props.isOpened ? "250px" : "100px")};
   display: flex;
   flex-direction: column;
   border: 4px double #f0f2ff;
   border-radius: 10px;
-  transition: width 0.4s ease, transform 0.4s ease;
-  margin: 20px 20px 0px 20px;
+  transition: width 0.8s ease, transform 0.8s ease, background-color 0.8s ease,
+    color 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
       ? "var(--color-sidebar-background-dark-default)"
@@ -25,24 +30,26 @@ export const Container = styled.div`
       : "var(--color-text-light-default)"};
 `;
 
-export const Logo = styled.div`
-  display: flex;
-  align-items: center;
+export const Header = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  position: relative;
+  overflow: visible;
+  gap: 0 2rem;
 `;
 
-export const LogoWrapper = styled.div`
+export const Logo = styled.div`
   display: flex;
   border-radius: 10px;
   align-items: center;
-  margin: 15px;
+  margin: 1rem;
   cursor: default;
 
   img {
     width: 40px;
-    height: auto;
     margin-right: 10px;
-    transition: transform 0.5s ease, padding-left 0.5s ease;
-    padding-left: ${(props) => (props.isOpened ? "0px" : "12px")};
+    transition: transform 0.8s ease, padding-left 0.8s ease;
+    padding-left: ${(props) => (props.isOpened ? "0" : "0.75rem")};
     transform: ${(props) => (props.isOpened ? "scale(1)" : "scale(1.2)")};
   }
 
@@ -51,39 +58,49 @@ export const LogoWrapper = styled.div`
     white-space: nowrap;
     overflow: hidden;
     opacity: ${(props) => (props.isOpened ? "1" : "0")};
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
     transform: ${(props) =>
       props.isOpened
         ? "translateX(0) scale(1)"
-        : "translateX(150px) scale(0.1)"};
+        : "translateX(20px) scale(0.1)"};
   }
 `;
 
-export const IconWrapper = styled.div`
+export const ArrowsLeftRight = styled.div`
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 20px;
-  min-height: 20px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  border: 2px double #fff;
-  margin-top: 5px;
+  border: 5px double #f0f2ff;
   cursor: pointer;
-  margin-left: ${(props) => (props.isOpened ? "64px" : "-97px")};
-  transition: transform 0.8s ease, background-color 0.8s ease,
-    margin-left 0.5s ease;
+  transition: transform 0.8s ease, background-color 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
-      ? "var(--color-button-background-dark-default)"
-      : "var(--color-button-background-light-active)"};
+      ? "var(--color-arrows-background-dark-default)"
+      : "var(--color-arrows-background-light-default)"};
 
   &:hover {
     background-color: ${(props) =>
       props.color === "dark"
-        ? "var(--color-button-background-dark-active)"
-        : "var(--color-button-background-dark-active)"};
+        ? "var(--color-arrows-background-dark-active)"
+        : "var(--color-arrows-background-light-active)"};
     transform: scale(1.1);
   }
+`;
+export const Theme = styled(ArrowsLeftRight)`
+  align-self: center;
+  grid-column: 2;
+  grid-row: 2;
+`;
+
+export const ArrowsUpDown = styled(ArrowsLeftRight)`
+  align-self: end;
+  grid-column: 2;
+  grid-row: 3;
 `;
 
 export const Nav = styled.div`
@@ -95,13 +112,11 @@ export const Nav = styled.div`
 export const NavItem = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
+  padding: 0.5rem;
   cursor: pointer;
   border-radius: 10px;
-  padding-left: 20px;
-  transition: background-color 0.5s ease, padding-left 0.5s ease;
+  padding-left: 2rem;
+  transition: background-color 0.8s ease, padding-left 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
       ? "var(--color-button-background-dark-default)"
@@ -118,6 +133,10 @@ export const NavItem = styled.div`
         props.color === "dark"
           ? "var(--color-text-dark-hover)"
           : "var(--color-text-light-hover)"};
+    }
+
+    svg {
+      transform: scale(1.1);
     }
   }
 
@@ -136,7 +155,7 @@ export const NavItem = styled.div`
   }
 
   svg {
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
     margin-right: 20px;
     transform: ${(props) => (props.isOpened ? "scale(1)" : "scale(1.4)")};
   }
@@ -144,12 +163,12 @@ export const NavItem = styled.div`
   span {
     margin-left: 10px;
     color: var(--color-text-light-default);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
     opacity: ${(props) => (props.isOpened ? "1" : "0")};
     transform: ${(props) =>
       props.isOpened
         ? "translateX(0) scale(1)"
-        : "translateX(150px) scale(0.1)"};
+        : "translateX(20px) scale(0.1)"};
   }
 `;
 
@@ -168,7 +187,7 @@ export const ProfItem = styled.div`
   cursor: pointer;
   border-radius: 10px;
   padding-left: 20px;
-  transition: background-color 0.5s ease, padding-left 0.5s ease;
+  transition: background-color 0.8s ease, padding-left 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
       ? "var(--color-button-background-dark-default)"
@@ -211,11 +230,9 @@ export const Prof = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-left: 10px;
   max-height: 70px;
   position: relative;
-  border-radius: 0 0 7px 7px;
-  transition: background-color 0.5s ease;
+  transition: background-color 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
       ? props.showProfile
@@ -234,6 +251,15 @@ export const Prof = styled.div`
     height: 1px;
     background-color: #e2e8f0;
   }
+
+  img {
+    opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
+    width: 40px;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    transform: ${(props) => (props.isOpened ? "scale(1)" : "scale(1.2)")};
+  }
 `;
 
 export const ProfWrapper = styled.div`
@@ -241,31 +267,30 @@ export const ProfWrapper = styled.div`
   display: flex;
   border-radius: 10px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 15px;
-  flex-shrink: 0;
   cursor: default;
+  width: 70%;
 
   img {
-    opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
     width: 40px;
     height: auto;
-    margin-left: ${(props) => (props.isOpened ? "0px" : "5px")};
-    margin-right: 10px;
     border-radius: 10px;
-    transition: transform 0.8s ease, margin-left 0.8s ease, opacity 0.5s ease;
+    opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
+    transition: transform 0.8s ease, margin-left 0.8s ease, opacity 0.8s ease;
     transform: ${(props) => (props.isOpened ? "scale(1)" : "scale(1.2)")};
+    margin-left: ${(props) => (props.isOpened ? "0" : "0.75rem")};
   }
 `;
+
 export const ProfInfo = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 0.7em;
-  margin-left: 10px;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  opacity: ${(props) => (props.showProfile ? 0.3 : 1)};
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  opacity: ${(props) => (props.showProfile ? 0.3 : props.isOpened ? 1 : 0)};
   transform: ${(props) =>
-    props.isOpened ? "translateX(0) scale(1)" : "translateX(150px) scale(0.1)"};
+    props.isOpened ? "translateX(0) scale(1)" : "translateX(20px) scale(0.1)"};
 
   p,
   h2 {
@@ -274,42 +299,18 @@ export const ProfInfo = styled.div`
   }
 `;
 
-export const InfoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 20px;
-  min-height: 20px;
-  border-radius: 50%;
-  border: 2px double #fff;
-  margin-top: 5px;
-  cursor: pointer;
-  margin-left: ${(props) => (props.isOpened ? "72px" : "-82px")};
-  transition: transform 0.8s ease, background-color 0.8s ease,
-    margin-left 0.5s ease;
-  background-color: ${(props) =>
-    props.color === "dark"
-      ? "var(--color-button-background-dark-default)"
-      : "var(--color-button-background-light-active)"};
-
-  &:hover {
-    background-color: ${(props) =>
-      props.color === "dark"
-        ? "var(--color-button-background-dark-active)"
-        : "var(--color-button-background-dark-active)"};
-    transform: scale(1.1);
-  }
-`;
-
 export const InfoBlock = styled.div`
+  grid-column: 3;
+  grid-row: 2 / span 2;
+  align-self: end;
   border: 3px double #f0f2ff;
   border-radius: 10px;
-  margin: 20px 0px 0px 0px;
   width: 200px;
   max-height: 300px;
   opacity: ${({ showProfile }) => (showProfile ? "1" : "0")};
   transform: translateY(${({ showProfile }) => (showProfile ? "0" : "50px")});
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease, background-color 0.8s ease,
+    color 0.8s ease;
   background-color: ${(props) =>
     props.color === "dark"
       ? "var(--color-sidebar-background-dark-default)"
@@ -348,7 +349,7 @@ export const ProfBottom = styled.div`
     top: 0;
     left: -2px;
     right: -2px;
-    height: 1px;
+    height: 2px;
     background-color: #e2e8f0;
   }
 
