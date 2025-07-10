@@ -5,6 +5,7 @@ import logo from "../../assets/logo.png";
 const LogoSectionStyled = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 24px;
   img {
     width: 32px;
     margin-right: 12px;

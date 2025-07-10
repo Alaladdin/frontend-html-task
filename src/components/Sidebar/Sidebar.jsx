@@ -11,7 +11,7 @@ import NavItem from "./NavItem";
 const Sidebar = ({ color }) => {
   const { theme } = useTheme();
   const currentPath = window.location.pathname; // location.pathname from "react-router-dom";
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const localTheme = useMemo(() => {
     if (color === "light") return lightTheme;
     if (color === "dark") return darkTheme;
@@ -24,39 +24,46 @@ const Sidebar = ({ color }) => {
 
   return (
     <SidebarContainer theme={localTheme} $collapsed={isCollapsed}>
-      <CollapseButton
-        $collapsed={isCollapsed}
-        theme={localTheme}
-        onClick={() => setIsCollapsed((prev) => !prev)}
-      />
-      <LogoSection theme={localTheme} $collapsed={isCollapsed} />
-      <RouteSection>
-        {TOP_ROUTES?.map((route) => (
-          <NavItem
-            key={route.title}
-            title={route.title}
-            icon={route.icon}
-            path={route.path}
-            onClick={() => goToRoute(route.path)}
+      <SidebarContent>
+        <div>
+          <CollapseButton
+            $collapsed={isCollapsed}
             theme={localTheme}
-            isActive={currentPath === route.path}
-            collapsed={isCollapsed}
+            onClick={() => setIsCollapsed((prev) => !prev)}
           />
-        ))}
-      </RouteSection>
-      <RouteSection>
-        {BOTTOM_ROUTES.map((route) => (
-          <NavItem
-            key={route.title}
-            title={route.title}
-            icon={route.icon}
-            path={route.path}
-            onClick={() => goToRoute(route.path)}
-            theme={localTheme}
-            collapsed={isCollapsed}
-          />
-        ))}
-      </RouteSection>
+          <LogoSection theme={localTheme} $collapsed={isCollapsed} />
+          <RouteSection>
+            {TOP_ROUTES?.map((route) => (
+              <NavItem
+                key={route.title}
+                title={route.title}
+                icon={route.icon}
+                path={route.path}
+                onClick={() => goToRoute(route.path)}
+                theme={localTheme}
+                isActive={currentPath === route.path}
+                collapsed={isCollapsed}
+              />
+            ))}
+          </RouteSection>
+        </div>
+
+        <BottomSection>
+          <RouteSection>
+            {BOTTOM_ROUTES.map((route) => (
+              <NavItem
+                key={route.title}
+                title={route.title}
+                icon={route.icon}
+                path={route.path}
+                onClick={() => goToRoute(route.path)}
+                theme={localTheme}
+                collapsed={isCollapsed}
+              />
+            ))}
+          </RouteSection>
+        </BottomSection>
+      </SidebarContent>
     </SidebarContainer>
   );
 };
@@ -68,21 +75,32 @@ const SidebarContainer = styled.div`
   width: ${({ $collapsed }) => ($collapsed ? "38px" : "260px")};
   background: ${({ theme }) => theme.sidebarBackground};
   color: ${({ theme }) => theme.textDefault};
-  padding: 12px 24px;
+  padding: 0px 24px;
   display: flex;
   flex-direction: column;
   height: 100vh;
   transition: width 0.3s ease, background 0.3s, color 0.3s;
-  ${"" /* overflow: hidden; */}
   position: relative;
+`;
+
+const SidebarContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 `;
 
 const RouteSection = styled.div`
   margin-top: 32px;
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
+const BottomSection = styled.div`
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 export default Sidebar;

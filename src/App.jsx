@@ -12,6 +12,7 @@ export default class App extends React.Component {
     return (
       <ThemeProvider>
         <ThemeToggle />
+        {/* <Sidebar color={"light"} /> В зависимости от prop color  */}
         <Sidebar />
       </ThemeProvider>
     );
