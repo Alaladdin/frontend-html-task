@@ -7,7 +7,7 @@ export const lightTheme = {
   textActive: "#0000b5",
   logoText: "#0000b5",
   buttonBackground: "#fff",
-  buttonBackgroundActive: "#e2e8f0"
+  buttonBackgroundActive: "#e2e8f0",
 };
 
 export const darkTheme = {
@@ -19,5 +19,5 @@ export const darkTheme = {
   textActive: "#f0f2ff",
   logoText: "#3B82F6",
   buttonBackground: "#202127",
-  buttonBackgroundActive: "#4B5966"
+  buttonBackgroundActive: "#4B5966",
 };
