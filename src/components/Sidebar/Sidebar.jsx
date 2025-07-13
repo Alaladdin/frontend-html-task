@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from '../../assets/logo.png';
@@ -6,20 +6,41 @@ import PropTypes from 'prop-types';
 
 import { HeaderSection, ImgLogo, LinkDesc, LinkInnerBox, LogoDesc, NavBottomContainer, NavContainer, SidebarContainer, ToggleSidebarButton } from '.';
 
+function reducerRoutes(state, action) {
+    if (action.type === 'current_page') {
+        const prev_page = state.findIndex((route) => route.current === true);
+
+        if (prev_page !== -1) {
+            state[prev_page].current = false;
+        }
+
+        if (action?.newCurrentPageTitle) {
+            const current_page = state.findIndex((route) => route.title === action.newCurrentPageTitle);
+            state[current_page].current = true;
+        }
+
+        return [...state];
+    }
+}
 
 const routes = [
-    { title: 'Home', icon: 'fas-solid fa-house', path: '/' },
-    { title: 'Sales', icon: 'chart-line', path: '/sales', active: true}, // react-router current active page
-    { title: 'Costs', icon: 'chart-column', path: '/costs' },
-    { title: 'Payments', icon: 'wallet', path: '/payments' },
-    { title: 'Finances', icon: 'chart-pie', path: '/finances' },
-    { title: 'Messages', icon: 'envelope', path: '/messages' },
+    { title: 'Home', icon: 'fas-solid fa-house', path: '/', current: true},
+    { title: 'Sales', icon: 'chart-line', path: '/sales', current: false},
+    { title: 'Costs', icon: 'chart-column', path: '/costs', current: false},
+    { title: 'Payments', icon: 'wallet', path: '/payments', current: false},
+    { title: 'Finances', icon: 'chart-pie', path: '/finances', current: false},
+    { title: 'Messages', icon: 'envelope', path: '/messages', current: false},
 ];
 
 const bottomRoutes = [
-    { title: 'Settings', icon: 'sliders', path: '/settings' },
-    { title: 'Support', icon: 'phone-volume', path: '/support' },
+    { title: 'Settings', icon: 'sliders', path: '/settings', current: false },
+    { title: 'Support', icon: 'phone-volume', path: '/support', current: false },
 ];
+
+const setCurrentNav = (newCurrentPage, setInitial, setCurrent) => {
+    setInitial({type: 'current_page'});
+    setCurrent(newCurrentPage);
+}
 
 const Sidebar = (props) => {
     const { color } = props;
@@ -27,9 +48,24 @@ const Sidebar = (props) => {
     const [themeColor, setThemeColor] = useState(color);
     const containerClassnames = classnames('sidebar', { opened: isOpened });
 
+    const [route_list, dispatchRoutes] = useReducer(reducerRoutes, routes);
+    const [route_bottom_list, dispatchBottomRoutes] = useReducer(reducerRoutes, bottomRoutes);
+
     const goToRoute = (path) => {
         console.log(`going to "${path}"`);
     };
+
+    const handleRouteClick = (route, type='main',callback) => {
+        const newCurrentPage = {type: 'current_page', newCurrentPageTitle: route.title};
+        
+        if (type === 'bottom') {
+            setCurrentNav(newCurrentPage, dispatchRoutes, dispatchBottomRoutes);
+        } else if (type === 'main') {
+            setCurrentNav(newCurrentPage, dispatchBottomRoutes, dispatchRoutes);
+        }
+
+        callback(route.path);
+    }
 
     const toggleSidebar = () => {
         setIsOpened(v => !v);
@@ -50,15 +86,16 @@ const Sidebar = (props) => {
             </HeaderSection>
             <NavContainer id='main'>
                 {
-                    routes.map(route => (
+                    route_list.map(route => (
                         <LinkInnerBox
                             key={ route.title }
-                            onClick={() => {
-                                goToRoute(route.path);
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleRouteClick(route, 'main', goToRoute);
                             }}
                             $color={themeColor}
                             $isOpened={isOpened}
-                            className={route?.active ? 'active': ''}
+                            className={route?.current ? 'active': ''}
                         >
                             <FontAwesomeIcon icon={ route.icon } />
                             <LinkDesc $color={themeColor} $show={isOpened} >{ route.title }</LinkDesc>
@@ -68,14 +105,16 @@ const Sidebar = (props) => {
             </NavContainer>
             <NavBottomContainer id='bottom'>
                 {
-                    bottomRoutes.map(route => (
+                    route_bottom_list.map(route => (
                         <LinkInnerBox
                             key={ route.title }
-                            onClick={() => {
-                                goToRoute(route.path);
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleRouteClick(route, 'bottom', goToRoute);
                             }}
                             $color={themeColor}
                             $isOpened={isOpened}
+                            className={route?.current ? 'active': ''}
                         >
                             <FontAwesomeIcon icon={ route.icon } />
                             <LinkDesc $color={themeColor} $show={isOpened}>{ route.title }</LinkDesc>
