@@ -1,5 +1,6 @@
 import Sidebar from "./Sidebar.jsx";
 import styled from "styled-components";
+import * as animate from "./animations.js";
 
 export default Sidebar;
 
@@ -82,7 +83,7 @@ export const LinkInnerBox = styled.div`
   &.active {
     background: var(--color-sidebar-background-${(props) => props.$color}-active);
     width: ${(props) => props.$isOpened ? 'auto': '1.25rem'};
-    transition: background 300ms, width 300ms ease-in-out;
+    transition: background 400ms, width 400ms ease-in-out;
 
     span {
       visibility: ${(props) => props.$isOpened ? 'visible' : 'hidden'};
@@ -129,7 +130,7 @@ export const SidebarContainer = styled.div`
   display: grid;
   grid-auto-flow: row;
   width: ${(props) => props.$isOpened ? `calc(100dvw - 90dvw)` : `calc(100dvw - 97.5dvw)`};
-  height: 92dvh;
+  height: 92.5dvh;
   padding: 1.75rem;
   border-radius: 1.25rem;
   background: var(--color-sidebar-background-${(props) => props.$color}-default);
