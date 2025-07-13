@@ -71,7 +71,8 @@ const Sidebar = (props) => {
         setIsOpened(v => !v);
     };
 
-    const ChangeThemeMode = () => {
+    const ChangeThemeMode = (e) => {
+        e.stopPropagation();
         themeColor === 'light' ? setThemeColor('dark') : setThemeColor('light');
     }
 
