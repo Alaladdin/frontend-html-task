@@ -23,7 +23,8 @@ const bottomRoutes = [
 
 const Sidebar = (props) => {
     const { color } = props;
-    const [isOpened, setIsOpened] = useState(false);
+    const [isOpened, setIsOpened] = useState(true);
+    const [themeColor, setThemeColor] = useState(color);
     const containerClassnames = classnames('sidebar', { opened: isOpened });
 
     const goToRoute = (path) => {
@@ -34,12 +35,16 @@ const Sidebar = (props) => {
         setIsOpened(v => !v);
     };
 
+    const ChangeThemeMode = () => {
+        themeColor === 'light' ? setThemeColor('dark') : setThemeColor('light');
+    }
+
     return (
-        <SidebarContainer className={ containerClassnames } $color={color} $isOpened={isOpened}>
+        <SidebarContainer className={ containerClassnames } $color={themeColor} $isOpened={isOpened}>
             <HeaderSection>
                 <ImgLogo src={ logo } alt="TensorFlow logo"/>
-                <LogoDesc $color={color} $show={isOpened}>TensorFlow</LogoDesc>
-                <ToggleSidebarButton $color={color} onClick={ toggleSidebar } $isOpened={isOpened}>
+                <LogoDesc $color={themeColor} $show={isOpened}>TensorFlow</LogoDesc>
+                <ToggleSidebarButton $color={themeColor} onClick={ toggleSidebar } $isOpened={isOpened}>
                     <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' } />
                 </ToggleSidebarButton>
             </HeaderSection>
@@ -51,12 +56,12 @@ const Sidebar = (props) => {
                             onClick={() => {
                                 goToRoute(route.path);
                             }}
-                            $color={color}
+                            $color={themeColor}
                             $isOpened={isOpened}
                             className={route?.active ? 'active': ''}
                         >
                             <FontAwesomeIcon icon={ route.icon } />
-                            <LinkDesc $color={color} $show={isOpened} >{ route.title }</LinkDesc>
+                            <LinkDesc $color={themeColor} $show={isOpened} >{ route.title }</LinkDesc>
                         </LinkInnerBox>
                     ))
                 }
@@ -69,15 +74,23 @@ const Sidebar = (props) => {
                             onClick={() => {
                                 goToRoute(route.path);
                             }}
-                            $color={color}
+                            $color={themeColor}
                             $isOpened={isOpened}
-                            /* className='active' */
                         >
                             <FontAwesomeIcon icon={ route.icon } />
-                            <LinkDesc $color={color} $show={isOpened}>{ route.title }</LinkDesc>
+                            <LinkDesc $color={themeColor} $show={isOpened}>{ route.title }</LinkDesc>
                         </LinkInnerBox>
                     ))
                 }
+                <LinkInnerBox
+                    id='theme-toggle'
+                    $color={themeColor}
+                    $isOpened={isOpened}
+                    onClick={ChangeThemeMode}
+                >
+                    <FontAwesomeIcon icon={ themeColor == 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' } />
+                    <LinkDesc $color={themeColor} $show={isOpened}>{ themeColor === 'light' ? 'Dark Theme': 'Light Theme' }</LinkDesc>
+                </LinkInnerBox>
             </NavBottomContainer>
         </SidebarContainer>
     );
