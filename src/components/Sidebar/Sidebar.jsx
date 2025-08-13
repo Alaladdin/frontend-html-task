@@ -1,81 +1,106 @@
-import { useState } from 'react';
-import classnames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import logo from '../../assets/logo.png';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { useMemo, useState } from "react";
+import styled from "styled-components";
+import { BOTTOM_ROUTES, TOP_ROUTES } from "../../constants/sidebarRoutes";
+import { useTheme } from "../../theme/ThemeContext";
+import { darkTheme, lightTheme } from "../../theme/theme";
+import CollapseButton from "./CollapseButton";
+import LogoSection from "./LogoSection";
+import NavItem from "./NavItem";
 
-const routes = [
-    { title: 'Home', icon: 'fas-solid fa-house', path: '/' },
-    { title: 'Sales', icon: 'chart-line', path: '/sales' },
-    { title: 'Costs', icon: 'chart-column', path: '/costs' },
-    { title: 'Payments', icon: 'wallet', path: '/payments' },
-    { title: 'Finances', icon: 'chart-pie', path: '/finances' },
-    { title: 'Messages', icon: 'envelope', path: '/messages' },
-];
+const Sidebar = ({ color }) => {
+  const { theme } = useTheme();
+  const currentPath = window.location.pathname; // location.pathname from "react-router-dom";
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const localTheme = useMemo(() => {
+    if (color === "light") return lightTheme;
+    if (color === "dark") return darkTheme;
+    return theme;
+  }, [color, theme]);
 
-const bottomRoutes = [
-    { title: 'Settings', icon: 'sliders', path: '/settings' },
-    { title: 'Support', icon: 'phone-volume', path: '/support' },
-];
+  const goToRoute = (path) => {
+    console.log(`going to "${path}"`);
+  };
 
-const Sidebar = (props) => {
-    const { color } = props;
-    const [isOpened, setIsOpened] = useState(false);
-    const containerClassnames = classnames('sidebar', { opened: isOpened });
-
-    const goToRoute = (path) => {
-        console.log(`going to "${path}"`);
-    };
-
-    const toggleSidebar = () => {
-        setIsOpened(v => !v);
-    };
-
-    return (
-        <div className={ containerClassnames }>
-            <div>
-                <img src={ logo } alt="TensorFlow logo"/>
-                <span>TensorFlow</span>
-                <div onClick={ toggleSidebar }>
-                    <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' }/>
-                </div>
-            </div>
-            <div>
-                {
-                    routes.map(route => (
-                        <div
-                            key={ route.title }
-                            onClick={() => {
-                                goToRoute(route.path);
-                            }}
-                        >
-                            <FontAwesomeIcon icon={ route.icon }/>
-                            <span>{ route.title }</span>
-                        </div>
-                    ))
-                }
-            </div>
-            <div>
-                {
-                    bottomRoutes.map(route => (
-                        <div
-                            key={ route.title }
-                            onClick={() => {
-                                goToRoute(route.path);
-                            }}
-                        >
-                            <FontAwesomeIcon icon={ route.icon }/>
-                            <span>{ route.title }</span>
-                        </div>
-                    ))
-                }
-            </div>
+  return (
+    <SidebarContainer theme={localTheme} $collapsed={isCollapsed}>
+      <SidebarContent>
+        <div>
+          <CollapseButton
+            $collapsed={isCollapsed}
+            theme={localTheme}
+            onClick={() => setIsCollapsed((prev) => !prev)}
+          />
+          <LogoSection theme={localTheme} $collapsed={isCollapsed} />
+          <RouteSection>
+            {TOP_ROUTES?.map((route) => (
+              <NavItem
+                key={route.title}
+                title={route.title}
+                icon={route.icon}
+                path={route.path}
+                onClick={() => goToRoute(route.path)}
+                theme={localTheme}
+                isActive={currentPath === route.path}
+                collapsed={isCollapsed}
+              />
+            ))}
+          </RouteSection>
         </div>
-    );
+
+        <BottomSection>
+          <RouteSection>
+            {BOTTOM_ROUTES.map((route) => (
+              <NavItem
+                key={route.title}
+                title={route.title}
+                icon={route.icon}
+                path={route.path}
+                onClick={() => goToRoute(route.path)}
+                theme={localTheme}
+                collapsed={isCollapsed}
+              />
+            ))}
+          </RouteSection>
+        </BottomSection>
+      </SidebarContent>
+    </SidebarContainer>
+  );
 };
 
 Sidebar.propTypes = {
-    color: PropTypes.string,
+  color: PropTypes.string,
 };
+const SidebarContainer = styled.div`
+  width: ${({ $collapsed }) => ($collapsed ? "38px" : "260px")};
+  background: ${({ theme }) => theme.sidebarBackground};
+  color: ${({ theme }) => theme.textDefault};
+  padding: 0px 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: width 0.3s ease, background 0.3s, color 0.3s;
+  position: relative;
+`;
 
+const SidebarContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+`;
+
+const RouteSection = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const BottomSection = styled.div`
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 export default Sidebar;
